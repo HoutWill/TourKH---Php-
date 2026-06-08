@@ -24,7 +24,7 @@ $userId = current_user_id();
 $u = get_user_by_id($conn, $userId);
 
 // Helper function to charge Stripe via backend cURL
-function stripe_charge($secret_key, $amount_cents, $token, $description) {
+function stripe_charge($secret_key, $amount_cents, $token, $description, $metadata = [], $receipt_email = null) {
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, 'https://api.stripe.com/v1/charges');
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -37,6 +37,16 @@ function stripe_charge($secret_key, $amount_cents, $token, $description) {
         'source' => $token,
         'description' => $description
     ];
+
+    if ($receipt_email) {
+        $fields['receipt_email'] = $receipt_email;
+    }
+
+    if (!empty($metadata)) {
+        foreach ($metadata as $key => $val) {
+            $fields['metadata[' . $key . ']'] = $val;
+        }
+    }
     
     curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($fields));
     $response = curl_exec($ch);
@@ -63,10 +73,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $totalPrice = $tour['price'] * $people;
         $amountCents = (int)($totalPrice * 100);
         $secretKey = $stripe_secret;
-        $description = 'Booking for ' . $tour['title'] . ' (Travelers: ' . $people . ')';
+        
+        $userName = !empty($u['full_name']) ? $u['full_name'] : $u['username'];
+        $userEmail = !empty($u['email']) ? $u['email'] : '';
+        $description = 'Booking for ' . $tour['title'] . ' (Travelers: ' . $people . ') - Customer: ' . $userName . ' (' . $userEmail . ')';
+
+        $metadata = [
+            'customer_name' => $userName,
+            'customer_email' => $userEmail,
+            'tour_title' => $tour['title']
+        ];
         
         // Call Stripe Charge API
-        $charge = stripe_charge($secretKey, $amountCents, $stripeToken, $description);
+        $charge = stripe_charge($secretKey, $amountCents, $stripeToken, $description, $metadata, $userEmail);
         
         if ($charge && isset($charge['id'])) {
             $status = 'approved';
