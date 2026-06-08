@@ -8,7 +8,7 @@ define('APP_ROOT', dirname(__DIR__));
 // Default database credentials (override in config.local.php)
 $host = "localhost";
 $user = "root";
-$pass = "";
+$pass = "123456";
 $db   = "travel_tour_db";
 
 // Default Stripe credentials (override in config.local.php)
@@ -42,8 +42,14 @@ function redirect($path) {
 }
 
 function getTourImage($imgName) {
+    if (empty($imgName)) {
+        return 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=800&q=80';
+    }
+    if (strpos($imgName, 'http') === 0) {
+        return $imgName;
+    }
     $localFile = APP_ROOT . '/assets/images/' . $imgName;
-    if (!empty($imgName) && file_exists($localFile)) {
+    if (file_exists($localFile)) {
         return base_url('assets/images/' . $imgName);
     }
     $fallbacks = [

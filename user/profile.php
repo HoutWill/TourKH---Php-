@@ -54,14 +54,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $full_name = trim($_POST['full_name'] ?? '');
         $email = trim($_POST['email'] ?? '');
         $phone = trim($_POST['phone'] ?? '');
-        $profile_image = trim($_POST['profile_image'] ?? '');
         $nationality = trim($_POST['nationality'] ?? '');
         $bio = trim($_POST['bio'] ?? '');
+        $profile_image = $user['profile_image']; // Default to existing image
+
+        if (isset($_FILES['profile_image']) && $_FILES['profile_image']['error'] === UPLOAD_ERR_OK) {
+            $fileTmpPath = $_FILES['profile_image']['tmp_name'];
+            $fileName = $_FILES['profile_image']['name'];
+            $fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+
+            $newFileName = 'user_' . $userId . '_' . time() . '.' . $fileExtension;
+            $uploadFileDir = APP_ROOT . '/assets/images/users/';
+            
+            if (!is_dir($uploadFileDir)) {
+                mkdir($uploadFileDir, 0755, true);
+            }
+
+            $dest_path = $uploadFileDir . $newFileName;
+            
+            $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+            if (in_array($fileExtension, $allowedExtensions, true)) {
+                if (move_uploaded_file($fileTmpPath, $dest_path)) {
+                    $profile_image = $newFileName;
+                } else {
+                    $error = 'There was an error moving the uploaded profile image.';
+                }
+            } else {
+                $error = 'Upload failed. Allowed formats: JPG, JPEG, PNG, GIF, WEBP.';
+            }
+        }
 
         // Basic validation
         if (!empty($email) && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $error = 'Please enter a valid email address.';
-        } else {
+        } elseif (empty($error)) {
             $upd = $conn->prepare("UPDATE users SET full_name = ?, email = ?, phone = ?, profile_image = ?, nationality = ?, bio = ? WHERE user_id = ?");
             $upd->bind_param('ssssssi', $full_name, $email, $phone, $profile_image, $nationality, $bio, $userId);
             if ($upd->execute()) {
@@ -254,11 +280,11 @@ $pageTitle = 'My Profile - TravelKH';
                                 <label for="form-nationality">Nationality</label>
                                 <input type="text" id="form-nationality" name="nationality" class="profile-form-control" placeholder="e.g. Cambodian" value="<?php echo htmlspecialchars($user['nationality']); ?>">
                             </div>
-                            <div class="col-md-12 profile-form-group">
-                                <label for="form-avatar">Profile Image URL / Filename</label>
-                                <input type="text" id="form-avatar" name="profile_image" class="profile-form-control" placeholder="assets/images/... or Web URL" value="<?php echo htmlspecialchars($user['profile_image']); ?>">
-                                <small class="text-muted mt-1 d-block">You can enter a direct web image URL (e.g. from Unsplash) or input a local filename.</small>
-                            </div>
+                             <div class="col-md-12 profile-form-group">
+                                 <label for="form-avatar">Profile Image</label>
+                                 <input type="file" id="form-avatar" name="profile_image" class="profile-form-control" accept="image/*">
+                                 <small class="text-muted mt-1 d-block">Choose an image file from your device (JPG, JPEG, PNG, GIF, or WEBP).</small>
+                             </div>
                             <div class="col-md-12 profile-form-group">
                                 <label for="form-bio">Bio Blurb</label>
                                 <textarea id="form-bio" name="bio" class="profile-form-control" rows="4" placeholder="Tell travelers and guides a bit about yourself..."><?php echo htmlspecialchars($user['bio']); ?></textarea>

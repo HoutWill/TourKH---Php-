@@ -31,24 +31,59 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $location = trim($_POST['location'] ?? '');
     $price = (float) ($_POST['price'] ?? 0);
     $duration = trim($_POST['duration'] ?? '');
-    $image = trim($_POST['image'] ?? '');
     $shortDesc = trim($_POST['short_description'] ?? '');
     $fullDesc = trim($_POST['full_description'] ?? '');
     $status = $_POST['status'] ?? 'active';
+    $image = '';
+    if ($tourId > 0) {
+        $stmt = $conn->prepare("SELECT image FROM tours WHERE tour_id = ?");
+        $stmt->bind_param('i', $tourId);
+        $stmt->execute();
+        $row = $stmt->get_result()->fetch_assoc();
+        $image = $row['image'] ?? '';
+    }
+
+    if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+        $fileTmpPath = $_FILES['image']['tmp_name'];
+        $fileName = $_FILES['image']['name'];
+        $fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+
+        $newFileName = 'tour_' . time() . '_' . rand(1000, 9999) . '.' . $fileExtension;
+        $uploadFileDir = APP_ROOT . '/assets/images/';
+        
+        if (!is_dir($uploadFileDir)) {
+            mkdir($uploadFileDir, 0755, true);
+        }
+
+        $dest_path = $uploadFileDir . $newFileName;
+        
+        $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+        if (in_array($fileExtension, $allowedExtensions, true)) {
+            if (move_uploaded_file($fileTmpPath, $dest_path)) {
+                $image = $newFileName;
+            } else {
+                $error = 'There was an error moving the uploaded tour image.';
+            }
+        } else {
+            $error = 'Upload failed. Allowed formats: JPG, JPEG, PNG, GIF, WEBP.';
+        }
+    }
 
     if ($title === '' || $price <= 0) {
         $error = 'Title and valid price are required.';
     } elseif (!in_array($status, ['active', 'inactive'], true)) {
         $error = 'Invalid status.';
-    } elseif ($tourId > 0) {
-        $stmt = $conn->prepare("UPDATE tours SET title=?, location=?, price=?, duration=?, image=?, short_description=?, full_description=?, status=? WHERE tour_id=?");
-        $stmt->bind_param('ssdsssssi', $title, $location, $price, $duration, $image, $shortDesc, $fullDesc, $status, $tourId);
-        $stmt->execute() ? $success = 'Tour updated.' : $error = 'Update failed.';
-        $editTour = null;
-    } else {
-        $stmt = $conn->prepare("INSERT INTO tours (title, location, price, duration, image, short_description, full_description, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param('ssdsssss', $title, $location, $price, $duration, $image, $shortDesc, $fullDesc, $status);
-        $stmt->execute() ? $success = 'Tour created.' : $error = 'Create failed.';
+    } elseif (empty($error)) {
+        if ($tourId > 0) {
+            $stmt = $conn->prepare("UPDATE tours SET title=?, location=?, price=?, duration=?, image=?, short_description=?, full_description=?, status=? WHERE tour_id=?");
+            $stmt->bind_param('ssdsssssi', $title, $location, $price, $duration, $image, $shortDesc, $fullDesc, $status, $tourId);
+            $stmt->execute() ? $success = 'Tour updated.' : $error = 'Update failed.';
+            $editTour = null;
+        } else {
+            $stmt = $conn->prepare("INSERT INTO tours (title, location, price, duration, image, short_description, full_description, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt->bind_param('ssdsssss', $title, $location, $price, $duration, $image, $shortDesc, $fullDesc, $status);
+            $stmt->execute() ? $success = 'Tour created.' : $error = 'Create failed.';
+        }
     }
 }
 
@@ -68,7 +103,7 @@ include __DIR__ . '/../includes/admin_sidebar.php';
 
 <div class="crud-card mb-4">
   <h4><?php echo $editTour ? 'Edit Tour' : 'Add New Tour'; ?></h4>
-  <form method="post" class="auth-form row g-3">
+  <form method="post" class="auth-form row g-3" enctype="multipart/form-data">
     <input type="hidden" name="tour_id" value="<?php echo (int) ($editTour['tour_id'] ?? 0); ?>">
     <div class="col-md-6">
       <label class="form-label">Title</label>
@@ -94,8 +129,11 @@ include __DIR__ . '/../includes/admin_sidebar.php';
       </select>
     </div>
     <div class="col-12">
-      <label class="form-label">Image filename</label>
-      <input type="text" name="image" class="form-control" placeholder="angkor.jpg" value="<?php echo htmlspecialchars($editTour['image'] ?? ''); ?>">
+      <label class="form-label">Tour Image</label>
+      <input type="file" name="image" class="form-control" accept="image/*">
+      <?php if (!empty($editTour['image'])): ?>
+        <small class="text-muted mt-1 d-block">Current Image: <code><?php echo htmlspecialchars($editTour['image']); ?></code></small>
+      <?php endif; ?>
     </div>
     <div class="col-12">
       <label class="form-label">Short Description</label>

@@ -90,7 +90,6 @@ include __DIR__ . '/../includes/admin_sidebar.php';
 ?>
 
 <h2 class="mb-4">Manage Users</h2>
-<p class="text-muted small">Role field: <code>enum('admin','user')</code> — only admins can assign roles.</p>
 
 <?php if ($error): ?><div class="alert alert-danger auth-alert"><?php echo htmlspecialchars($error); ?></div><?php endif; ?>
 <?php if ($success): ?><div class="alert alert-success auth-alert"><?php echo htmlspecialchars($success); ?></div><?php endif; ?>

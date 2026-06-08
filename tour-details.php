@@ -36,14 +36,53 @@ include __DIR__ . '/includes/navbar.php';
                 </div>
             </div>
             <div class="col-lg-4">
-                <div class="tour-card booking-card">
-                    <h2 class="tour-price">💰 $<?php echo number_format($t['price'], 2); ?></h2>
-                    <hr>
-                    <p>📍 <?php echo htmlspecialchars($t['location']); ?></p>
-                    <p>⏱️ <?php echo htmlspecialchars($t['duration']); ?></p>
-                    <a href="<?php echo base_url('user/book.php?id=' . $t['tour_id']); ?>" class="btn btn-green w-100">
-                        ✈️ Book Now
+                <div class="booking-card-modern">
+                    <div class="card-badge">Top Choice</div>
+                    
+                    <div class="price-header">
+                        <span class="price-label">Price per person</span>
+                        <h2 class="tour-price-modern">$<?php echo number_format($t['price'], 2); ?></h2>
+                    </div>
+                    
+                    <hr class="divider">
+                    
+                    <ul class="tour-features-list">
+                        <li>
+                            <span class="feature-icon">📍</span>
+                            <div class="feature-text">
+                                <span class="feature-title">Location</span>
+                                <span class="feature-val"><?php echo htmlspecialchars($t['location']); ?></span>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="feature-icon">⏱️</span>
+                            <div class="feature-text">
+                                <span class="feature-title">Duration</span>
+                                <span class="feature-val"><?php echo htmlspecialchars($t['duration']); ?></span>
+                            </div>
+                        </li>
+                    </ul>
+                    
+                    <hr class="divider">
+                    
+                    <div class="guarantees-box">
+                        <div class="guarantee-item">
+                            <span class="guarantee-check">✓</span> Instant Confirmation
+                        </div>
+                        <div class="guarantee-item">
+                            <span class="guarantee-check">✓</span> Best Price Guarantee
+                        </div>
+                        <div class="guarantee-item">
+                            <span class="guarantee-check">✓</span> Secure Booking
+                        </div>
+                    </div>
+                    
+                    <a href="<?php echo base_url('user/book.php?id=' . $t['tour_id']); ?>" class="btn-book-now-modern">
+                        <span>✈️ Book Tour Now</span>
+                        <span class="arrow-icon">→</span>
                     </a>
+                    
+                    <p class="booking-footer-text">No booking fees • Cancel anytime</p>
                 </div>
             </div>
         </div>

@@ -279,3 +279,189 @@ h2::after {
 .carousel-caption p{
     font-size:1.2rem;
 }
+
+/* Modern Booking Card design */
+.booking-card-modern {
+    position: sticky;
+    top: 100px;
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: 24px;
+    padding: 32px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.04), 0 2px 8px rgba(0, 0, 0, 0.02);
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    overflow: hidden;
+}
+
+.booking-card-modern:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 48px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
+/* Accent top border highlight */
+.booking-card-modern::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: linear-gradient(90deg, #2E7D32, #66BB6A);
+}
+
+.card-badge {
+    display: inline-block;
+    background: rgba(46, 125, 50, 0.1);
+    color: #2E7D32;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 6px 14px;
+    border-radius: 50px;
+    margin-bottom: 20px;
+}
+
+.price-header {
+    margin-bottom: 15px;
+}
+
+.price-label {
+    display: block;
+    color: #888888;
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-bottom: 4px;
+}
+
+.tour-price-modern {
+    color: #1a1a1a;
+    font-size: 2.5rem;
+    font-weight: 800;
+    font-family: 'Outfit', sans-serif;
+    margin: 0;
+}
+
+.divider {
+    border: 0;
+    height: 1px;
+    background: linear-gradient(to right, rgba(0,0,0,0), rgba(0,0,0,0.08), rgba(0,0,0,0));
+    margin: 20px 0;
+}
+
+.tour-features-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.tour-features-list li {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.tour-features-list li:last-child {
+    margin-bottom: 0;
+}
+
+.feature-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: #f4f9f4;
+    border-radius: 12px;
+    font-size: 1.2rem;
+}
+
+.feature-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.feature-title {
+    color: #888888;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.feature-val {
+    color: #2c3e50;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.guarantees-box {
+    background: #fbfdfb;
+    border: 1px dashed rgba(46, 125, 50, 0.15);
+    border-radius: 16px;
+    padding: 18px;
+    margin-bottom: 24px;
+}
+
+.guarantee-item {
+    font-size: 0.85rem;
+    color: #555555;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+}
+
+.guarantee-item:last-child {
+    margin-bottom: 0;
+}
+
+.guarantee-check {
+    color: #2E7D32;
+    font-weight: 700;
+}
+
+.btn-book-now-modern {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(135deg, #2E7D32, #1B5E20);
+    color: #ffffff;
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-decoration: none;
+    padding: 16px 24px;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(46, 125, 50, 0.25);
+    transition: all 0.3s ease;
+}
+
+.btn-book-now-modern:hover {
+    background: linear-gradient(135deg, #1B5E20, #0d360f);
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(46, 125, 50, 0.35);
+}
+
+.btn-book-now-modern:active {
+    transform: translateY(0);
+}
+
+.btn-book-now-modern .arrow-icon {
+    transition: transform 0.3s ease;
+}
+
+.btn-book-now-modern:hover .arrow-icon {
+    transform: translateX(4px);
+}
+
+.booking-footer-text {
+    text-align: center;
+    font-size: 0.78rem;
+    color: #999999;
+    margin-top: 12px;
+    margin-bottom: 0;
+    font-weight: 500;
+}
