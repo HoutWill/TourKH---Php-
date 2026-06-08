@@ -1,0 +1,475 @@
+/* CSS for Premium Modern Home Page */
+:root {
+    --primary-green: #2E7D32;
+    --dark-green: #1B5E20;
+    --lime-accent: #C7F93E;
+    --charcoal: #1E2E21;
+    --body-text: #4A5D4E;
+    --soft-green-bg: #F5F9F6;
+    --white: #FFFFFF;
+    --gold: #FFB300;
+    --glass-white: rgba(255, 255, 255, 0.85);
+    --border-color: rgba(46, 125, 50, 0.08);
+}
+
+/* Custom styles for home page components */
+.home-hero {
+    position: relative;
+    height: 80vh;
+    min-height: 550px;
+    background: url('https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=1920&q=80') no-repeat center center;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    text-align: center;
+}
+
+.home-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(180deg, rgba(30, 46, 33, 0.45) 0%, rgba(20, 31, 22, 0.85) 100%);
+    z-index: 1;
+}
+
+.home-hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 900px;
+    padding: 0 20px;
+    margin-bottom: 40px;
+}
+
+.home-hero-content h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 6vw, 5rem);
+    font-weight: 900;
+    color: var(--white);
+    text-transform: none;
+    line-height: 1.15;
+    margin-bottom: 1.25rem;
+    text-shadow: 2px 4px 15px rgba(0,0,0,0.4);
+}
+
+.home-hero-content h1::after {
+    display: none;
+}
+
+.home-hero-content p {
+    font-size: clamp(1.1rem, 2vw, 1.5rem);
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.95);
+    margin-bottom: 0;
+    text-shadow: 1px 2px 8px rgba(0,0,0,0.3);
+}
+
+/* Floating Search Bar */
+.search-container {
+    position: relative;
+    z-index: 3;
+    margin-top: -65px;
+    max-width: 950px;
+}
+
+.search-bar-card {
+    background: var(--glass-white);
+    backdrop-filter: blur(15px);
+    border-radius: 24px;
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.12);
+    padding: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.search-input-group {
+    background: var(--white);
+    border-radius: 16px;
+    padding: 10px 15px;
+    border: 1px solid rgba(46, 125, 50, 0.12);
+    height: 100%;
+    transition: all 0.3s ease;
+}
+
+.search-input-group:focus-within {
+    border-color: var(--primary-green);
+    box-shadow: 0 0 0 4px rgba(46, 125, 50, 0.1);
+}
+
+.search-input-group label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--primary-green);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display: block;
+    margin-bottom: 2px;
+}
+
+.search-input-group input, 
+.search-input-group select {
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 0.95rem;
+    color: var(--charcoal);
+    font-weight: 600;
+    background: transparent;
+}
+
+.search-btn-modern {
+    background: var(--primary-green);
+    color: var(--white);
+    font-weight: 700;
+    border: none;
+    border-radius: 16px;
+    height: 100%;
+    width: 100%;
+    min-height: 55px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    box-shadow: 0 10px 20px rgba(46, 125, 50, 0.2);
+    transition: all 0.3s ease;
+}
+
+.search-btn-modern:hover {
+    background: var(--dark-green);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(27, 94, 32, 0.3);
+    color: var(--white);
+}
+
+/* Category Grid Section */
+.categories-section {
+    padding: 100px 0 60px 0;
+    background: var(--white);
+}
+
+.section-subtitle {
+    font-family: 'Outfit', sans-serif;
+    color: var(--primary-green);
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 0.15em;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.section-title-modern {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 3.5vw, 2.75rem);
+    color: var(--charcoal);
+    font-weight: 800;
+    margin-bottom: 25px;
+    text-transform: none;
+    text-shadow: none;
+}
+
+.section-title-modern::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background: var(--primary-green);
+    margin: 15px auto 0 auto;
+    border-radius: 2px;
+}
+
+.category-card {
+    background: var(--white);
+    border-radius: 24px;
+    overflow: hidden;
+    position: relative;
+    height: 250px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 30px;
+    border: 1px solid rgba(0,0,0,0.02);
+    z-index: 1;
+}
+
+.category-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0) 40%, rgba(30,46,33,0.85) 100%);
+    z-index: 2;
+    transition: all 0.4s ease;
+}
+
+.category-card img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+    transition: transform 0.6s ease;
+}
+
+.category-info {
+    position: relative;
+    z-index: 3;
+    color: var(--white);
+}
+
+.category-info h4 {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 1.35rem;
+    margin-bottom: 5px;
+    color: var(--white);
+    text-transform: none;
+    text-shadow: none;
+}
+
+.category-info h4::after {
+    display: none;
+}
+
+.category-info p {
+    font-size: 0.85rem;
+    opacity: 0.85;
+    margin-bottom: 0;
+}
+
+.category-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(30, 46, 33, 0.15);
+}
+
+.category-card:hover img {
+    transform: scale(1.08);
+}
+
+.category-card:hover::before {
+    background: linear-gradient(180deg, rgba(0,0,0,0) 25%, rgba(27,94,32,0.92) 100%);
+}
+
+/* Featured Tours Section Styling */
+.featured-section {
+    padding: 80px 0 100px 0;
+    background: var(--soft-green-bg);
+}
+
+/* Redesigned Premium Tour Card */
+.tour-card-modern {
+    background: var(--white);
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+    border: 1px solid rgba(46, 125, 50, 0.05);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.tour-card-modern:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(30,46,33,0.08);
+}
+
+.tour-image-container {
+    position: relative;
+    height: 240px;
+    overflow: hidden;
+}
+
+.tour-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+.tour-card-modern:hover .tour-image-container img {
+    transform: scale(1.06);
+}
+
+.tour-badge {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: var(--glass-white);
+    backdrop-filter: blur(8px);
+    color: var(--dark-green);
+    padding: 6px 14px;
+    border-radius: 30px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.tour-price-badge {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background: var(--primary-green);
+    color: var(--white);
+    padding: 8px 16px;
+    border-radius: 14px;
+    font-weight: 800;
+    font-size: 1.1rem;
+    box-shadow: 0 6px 15px rgba(46, 125, 50, 0.25);
+}
+
+.tour-body-modern {
+    padding: 30px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.tour-meta-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 0.85rem;
+    color: #666;
+    margin-bottom: 12px;
+    font-weight: 600;
+}
+
+.tour-meta-info span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.tour-body-modern h3 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--charcoal);
+    margin-bottom: 15px;
+    line-height: 1.3;
+}
+
+.tour-body-modern p {
+    color: var(--body-text);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 25px;
+    flex-grow: 1;
+}
+
+.btn-tour-detail {
+    background: var(--soft-green-bg);
+    color: var(--primary-green);
+    font-weight: 700;
+    border: none;
+    border-radius: 14px;
+    padding: 12px;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: block;
+}
+
+.btn-tour-detail:hover {
+    background: var(--primary-green);
+    color: var(--white);
+}
+
+/* Testimonial Section styling */
+.testimonials-section {
+    padding: 100px 0;
+    background: var(--white);
+}
+
+.testimonial-card {
+    background: var(--white);
+    border-radius: 24px;
+    padding: 40px 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+    border: 1px solid rgba(46,125,50,0.06);
+    position: relative;
+    height: 100%;
+}
+
+.testimonial-quote {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--body-text);
+    font-style: italic;
+    margin-bottom: 25px;
+    position: relative;
+    z-index: 2;
+}
+
+.testimonial-quote::before {
+    content: '“';
+    font-family: 'Playfair Display', serif;
+    font-size: 5rem;
+    color: rgba(46, 125, 50, 0.08);
+    position: absolute;
+    top: -40px;
+    left: -10px;
+    z-index: -1;
+}
+
+.testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.testimonial-author img {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.author-name {
+    font-weight: 700;
+    color: var(--charcoal);
+    font-size: 1rem;
+    margin-bottom: 2px;
+}
+
+.author-role {
+    font-size: 0.8rem;
+    color: #888;
+}
+
+.stars-container {
+    color: var(--gold);
+    display: flex;
+    gap: 3px;
+    margin-bottom: 12px;
+}
+
+/* View all tours link */
+.btn-outline-green {
+    border: 2px solid var(--primary-green);
+    color: var(--primary-green);
+    background: transparent;
+    font-weight: 700;
+    padding: 12px 35px;
+    border-radius: 30px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-outline-green:hover {
+    background: var(--primary-green);
+    color: var(--white);
+}
